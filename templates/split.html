@@ -115,12 +115,16 @@
         
                 </div>
                 <div class="section2">
+                    {% if data %}
                     Friends on the trip
                     <ul>
                         {% for i in data %}
                         <li>{{ i.username }}</li>
                         {% endfor %}
                     </ul>
+                    {% else %}
+                    No Friend added <br>Find at <a href="/findfriends">Find Friends</a>
+                    {% endif %}
                 </div>
             </div>
         </main>

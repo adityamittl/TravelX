@@ -153,9 +153,11 @@ def split(request):
             return redirect('pendingPayment')
         else:
             pass
-        
-    ontrip = friend_list.objects.get(user = request.user)
-    ontrip = ontrip.friends.all()
+    try:
+        ontrip = friend_list.objects.get(user = request.user)
+        ontrip = ontrip.friends.all()
+    except:
+        ontrip = []
     context = {
         'data':ontrip
     }
@@ -176,17 +178,22 @@ def paybills(request,slug):
 
 def findfriend(request):
     exclusion = []
-    x = friend_list.objects.get(user = request.user)
-    for i in x.friends.all():
-        exclusion.append(i)
-    sented = sent_request.objects.filter(from_user = request.user)
-    already = []
-    for i in sented:
-        exclusion.append(i.to_user)
-        already.append(profile.objects.get(user = i.to_user))
-    print(already)
-    exclusion.append(User.objects.get(username = (request.user).username))
-    profs = profile.objects.all().exclude(user__in=exclusion)
+    try:
+        x = friend_list.objects.get(user = request.user)
+        for i in x.friends.all():
+            exclusion.append(i)
+        sented = sent_request.objects.filter(from_user = request.user)
+        already = []
+        for i in sented:
+            exclusion.append(i.to_user)
+            already.append(profile.objects.get(user = i.to_user))
+    except:
+        already = []
+    try:
+        exclusion.append(User.objects.get(username = (request.user).username))
+        profs = profile.objects.all().exclude(user__in=exclusion)
+    except:
+        profs = []
     context = {
         'profiles': profs,
         'sented':already
