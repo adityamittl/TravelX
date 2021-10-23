@@ -3,7 +3,7 @@ def extract_bill(bill_image_path):
     from azure.core.credentials import AzureKeyCredential
     import json
 
-    config = { "endpoint": "https://money-trek.cognitiveservices.azure.com/","key": "2094f3aedac24767ac42be835e78fec4"}
+    config = { "endpoint": "https://for-hackathon.cognitiveservices.azure.com/","key": "625cca750bb3484ca4dd443655eecd0a"}
     client = FormRecognizerClient(config["endpoint"], AzureKeyCredential(config["key"]))
     
     f =  open(bill_image_path, "rb")
