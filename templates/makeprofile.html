@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete your profile</title>
+</head>
+<body>
+    <form action="" method="post" class="formwrap" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="text" name="name" id="name" placeholder="name" class="inputfld">
+        <input type="email" name="email" id="email" class="inputfld" placeholder="Email Address">
+        <input type="tel" name="mobile" id="mobile" class="inputfld" placeholder="Mobile Number">
+        <input type="file" name="myfile" id="myfile" style="color: white;">
+        <button type="submit">Submit</button>
+
+    </form>
+</body>
+</html>

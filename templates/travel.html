@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Journey</title>
+
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.7.1/dist/css/uikit.min.css" />
+    <!-- UIkit JS -->
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.7.1/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.7.1/dist/js/uikit-icons.min.js"></script>
+    <style>
+        .mapwrapper{
+            height: 80vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="uk-navbar-container" uk-navbar style="z-index: 5;">
+        <div class="uk-navbar-left">
+
+            <ul class="uk-navbar-nav">
+                <li><a href="/">Dashboard</a></li>
+
+                <li><a href="/split">New split</a></li>
+                <li><a href="/pendingpayments">Pending Payments</a></li>
+                <li class="uk-active"><a href="/travel">My Journey</a></li>
+            </ul>
+
+        </div>
+        <div class="uk-navbar-right" style="margin-right: 20px;">
+
+            <ul class="uk-navbar-nav">
+                <li>
+                    <a href="#">{{ user }}</a>
+                    <div class="uk-navbar-dropdown">
+                        <ul class="uk-nav uk-navbar-dropdown-nav">
+                            <li><a href="/">My Account</a></li>
+                            <li><a href="/signout">Signout</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="mapwrapper">
+        <div class="buttomwrap">
+            <span>Add this location to your journey- </span>
+            <form action="" method="post">
+                {% csrf_token %}
+                <input type="text" name="longi" id="longi" style="display: none;">
+                <input type="text" name="lati" id="lati" style="display: none;">
+                <button id="addtolocation" type="submit">Add location</button>
+            </form>
+        </div>
+        <div id='map' style='width: 90%; height: 80vh;'></div>
+    </div>
+    <script>
+        var long = 0;
+        var lat = 0;
+        function showPosition(position) {
+            lat = position.coords.latitude 
+            long = position.coords.longitude
+            document.getElementById('lati').setAttribute('value',lat)
+            document.getElementById('longi').setAttribute('value',long)
+            current(lat,long)
+        }
+        console.log(long,lat)
+        function current(lat1,long1){
+        mapboxgl.accessToken = 'pk.eyJ1IjoibmV3dXNlcjEyMzQ1NiIsImEiOiJja3I5MnVybHgwaW5oMnpwOGRmYTlyeDR0In0.5Z9qCY7hNcRWYqfjb6aJJQ';
+        var map = new mapboxgl.Map({
+            container: 'map', 
+            style: 'mapbox://styles/mapbox/streets-v11', 
+            center: [long1, lat1], 
+            zoom: 4 
+        });
+
+        // Set options
+        {% for i in data %}
+        var marker = new mapboxgl.Marker({
+            color: "#FF0000",
+            draggable: true
+        }).setLngLat([{{ i.longitude }}, {{ i.latitude }}])
+            .addTo(map);
+        {% endfor %}
+    }
+    </script>
+    <script>
+        var x = document.getElementById("demo");
+
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+
+
+    </script>
+</body>
+
+</html>

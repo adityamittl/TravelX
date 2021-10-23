@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User-lists</title>
+</head>
+
+<body>
+    <input type="text" name="" id="friendid" value="aditya">
+    <p id="friendid1">test</p>
+    <button class="addfriend"></button>
+    <div class="isadded"></div>
+    <ul>
+        {% for user in data %}
+            <li>{{ user.username }}</li>
+                <input type="text" name="{{ user.username }}" id="{{ user.username }}" value="{{ user.username }}">
+                <input type="button" value="Add Friend" onclick="sendrequest(document.getElementById('{{ user.username }}').value)">
+                <hr>
+        {% endfor %}
+    </ul>
+
+</body>
+
+</html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
+
+<script type="text/javascript">
+    console.log(Cookies.get('csrftoken'));
+    var username = document.getElementById('friendid').value;
+    console.log(username)
+    function sendrequest(username){
+        var catid;
+        catid = $(this).attr("data-catid");
+        console.log(username)
+        $.ajax(
+            {
+                type: "POST",
+                url: "/addfriend/" + username,
+                headers: {'X-CSRFToken': Cookies.get('csrftoken')},
+                data: {
+                    post_id: catid
+                },
+                success: function (data) {
+                    $('#like' + catid).remove();
+                    $('.isadded').text(data);
+                    console.log(data)
+                }
+            }).done(json => console.log(json));
+    }
+</script>

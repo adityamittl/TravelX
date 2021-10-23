@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome {{ user }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+    <!-- UIkit CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.7.1/dist/css/uikit.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <!-- UIkit JS -->
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.7.1/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.7.1/dist/js/uikit-icons.min.js"></script> 
+    <style>
+        section{
+            height: 90vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            position: absolute;
+            top: 30px;
+        }
+        .card{
+            width: 90%;
+            height: 80vh;
+            background: linear-gradient(to top right,rgba(255,200,255,0.78),rgba(255,200,255,0.2));
+            display: flex;
+            align-items: center;
+            padding-top: 20px;
+            overflow-y: scroll;
+            margin-top: 50px;
+        }
+        .avatar{
+            height: 70px;
+            width: 70px;
+            border-radius: 50%;
+            border: 2px solid rgba(0,0,255,0.4);
+            background-image: url('');
+            background-position: center;
+        }
+        .fields{
+            margin-top: 10px;
+            height: 100px;
+            width: 70%;
+            border: 0.5px solid blue;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="uk-navbar-container" uk-navbar style="z-index: 5;">
+        <div class="uk-navbar-left">
+
+            <ul class="uk-navbar-nav">
+                <li class="uk-active"><a href="/">Dashboard</a></li>
+
+                <li><a href="/split">New split</a></li>
+                <li><a href="/pendingpayments">Pending Payments</a></li>
+                <li><a href="/travel">My Journey</a></li>
+            </ul>
+
+        </div>
+        <div class="uk-navbar-right" style="margin-right: 20px;">
+
+            <ul class="uk-navbar-nav">
+                <li>
+                    <a href="#">{{ user }}</a>
+                    <div class="uk-navbar-dropdown">
+                        <ul class="uk-nav uk-navbar-dropdown-nav">
+                            <li><a href="/">My Account</a></li>
+                            <li><a href="/signout">Signout</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <section>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link active" href="/findfriends">Add friends</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/recieved">Requests</a>
+            </li>
+        </ul>
+        <div class="card">
+            {% for i in profiles %}
+            <div class="fields">
+                <p>{{ i.name }}</p>
+                <div class="avatar" style="background-image: url('/media/{{ i.image }}');"></div>
+                <button type="button" id="ipt{{ i.username }}" class="btn btn-outline-primary" onclick="addfiend('{{ i.user.username }}')"> Add friend </button>
+                <p id="{{ i.user }}"></p> 
+                
+            </div>
+            {% endfor %}
+            {% for i in sented %}
+            <div class="fields">
+                <p>{{ i.name }}</p>
+                <div class="avatar" style="background-image: url('/media/{{ i.image }}');"></div>
+                <p>Pending</p> 
+                
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
+
+    <script type="text/javascript">
+        console.log(Cookies.get('csrftoken'));
+        var username = document.getElementById('friendid').value;
+        console.log(username)
+
+        function addfiend(username) {
+            var catid;
+            catid = $(this).attr("data-catid");
+            $('#ipt'+username).remove()
+            $.ajax(
+                {
+                    type: "POST",
+                    url: "/addfriend/" + username,
+                    headers: { 'X-CSRFToken': Cookies.get('csrftoken') },
+                    data: {
+                        post_id: catid
+                    },
+                    success: function (data) {
+                        $('#' + username).text('Sent');
+                        ;
+                    }
+                }).done(json => console.log(json));
+        }
+    </script>
+
+</body>
+</html>

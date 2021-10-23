@@ -1,0 +1,81 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Noto Sans SC', sans-serif;
+}
+
+section{
+    min-height: 100vh;
+    width: 100%;
+    background-color: white;
+    background: linear-gradient(to right top, #65dfc9 ,#6cdbeb);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+main{
+    height: 85vh;
+    width: 75%;
+    background-color: white;
+    border-radius: 15px;
+    backdrop-filter: blur(0.1rem);
+    z-index: 3;
+    display: flex;
+    background: linear-gradient(to bottom left, rgba(225,255,255,0.5),rgba(255,255,254,0.8));
+}
+
+.section1{
+    height: 100%;
+    width: 50%;
+    background-color: transparent;
+    border-right: 1px solid rgba(255,255,254,0.8);
+    background: linear-gradient(to top left,rgba(255,255,255,0.8),rgba(255,255,255,0.3));
+    border-radius: 15px;
+}
+
+.section2{
+    height: 100%;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.form{
+    margin-top: -40px;
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    align-items: center;
+}
+
+.value{
+    height: 30px;
+    width: 100%;
+    margin: 10px;
+    border-radius: 10px;
+    border: none;
+}
+
+.submitb{
+    height: 20px;
+    border: none;
+    border-radius: 0;
+    outline: 1px solid blue;
+    width: 50px;
+    margin-top: 25px;
+}
+
+
+#id_username,#id_password{
+    height: 30px;
+    width: 100%;
+    margin: 10px;
+    border-radius: 10px;
+    border: none;
+}
+.greet{
+    margin-bottom: -30px;
+}

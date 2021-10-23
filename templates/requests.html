@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome {{ user }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+        
+    <style>
+        section{
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+        }
+        .card{
+            width: 90%;
+            height: 90vh;
+            background: linear-gradient(to top right,rgba(255,200,255,0.78),rgba(255,200,255,0.2));
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+        }
+        .avatar{
+            height: 70px;
+            width: 70px;
+            border-radius: 50%;
+            border: 2px solid rgba(0,0,255,0.4);
+            background-image: url('');
+            background-position: center;
+        }
+        .fields{
+            height: 100px;
+            width: 70%;
+            border: 0.5px solid blue;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <section>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link " aria-current="page" href="/">Info</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="/findfriends">Add friends</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/recieved">Requests</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Blog</a>
+              </li>
+        </ul>
+        <div class="card">
+            {% for i in data %}
+            <div class="fields">
+                <p>{{ i.from_user }}</p>
+                <button type="button" id="ipt{{ i.user.username }}" class="btn btn-outline-primary" onclick="sendrequest('{{ i.from_user }}')"> Confirm </button>
+                <p id="{{ i.user.username }}"></p> 
+                
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
+
+    <script type="text/javascript">
+        console.log(Cookies.get('csrftoken'));
+        var username = document.getElementById('friendid').value;
+        console.log(username)
+
+        function sendrequest(username) {
+            var catid;
+            catid = $(this).attr("data-catid");
+            console.log(username)
+            $.ajax(
+                {
+                    type: "POST",
+                    url: "/acceptfriend/" + username,
+                    headers: { 'X-CSRFToken': Cookies.get('csrftoken') },
+                    data: {
+                        post_id: catid
+                    },
+                    success: function (data) {
+                        $('#ipt' + username).remove();
+                        $('.isadded').text(data);
+                        console.log(data)
+                    }
+                }).done(json => console.log(json));
+        }
+    </script>
+</body>
+
+</html>
