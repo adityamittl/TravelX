@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New | Blog</title>
+    <!-- UIkit CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/uikit@3.7.3/dist/css/uikit.min.css"
+    />
+
+    <!-- UIkit JS -->
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.7.3/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.7.3/dist/js/uikit-icons.min.js"></script>
+    <style>
+      .formwrap {
+        width: 60vw;
+        margin-left: 20vw;
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="uk-navbar-container" uk-navbar>
+      <div class="uk-navbar-left">
+        <ul class="uk-navbar-nav">
+          <li class="uk-active"><a href="#">NoDistance</a></li>
+          <li class="uk-active">
+            <a href="/blog">Blogs</a>
+          </li>
+          <li><a href="/chat">Messages</a></li>
+        </ul>
+      </div>
+      <div class="uk-navbar-right" style="margin-right: 70px">
+        <ul class="uk-navbar-nav">
+          <li>
+            {% if user.is_authenticated %}
+            <a href="/dashboard">{{ name }}</a>
+            {% endif %}
+            <div class="uk-navbar-dropdown">
+              <ul class="uk-nav uk-navbar-dropdown-nav">
+                <li><a href="/new-blog">Write a blog</a></li>
+                <li><a href="/myblogs">My Blogs</a></li>
+                <li><a href="/dashboard">Account</a></li>
+                <li><a href="/logout">Logout</a></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <form method="POST" class="formwrap">
+      {% csrf_token %}
+      <fieldset class="uk-fieldset">
+        <legend class="uk-legend">New Blog</legend>
+
+        <div class="uk-margin">
+          <input
+            class="uk-input"
+            type="text"
+            name="title"
+            placeholder="Title"
+          />
+        </div>
+        <div class="uk-margin">
+          <input
+            class="uk-input"
+            type="text"
+            name="topic"
+            placeholder="Topic"
+          />
+        </div>
+        <div class="uk-margin">
+          <textarea
+            name="description"
+            class="uk-textarea"
+            rows="10"
+            placeholder="Your Blog"
+          ></textarea>
+        </div>
+        <button class="uk-button uk-button-default uk-button-large">
+          Post
+        </button>
+      </fieldset>
+    </form>
+  </body>
+</html>

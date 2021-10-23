@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'authentication',
     'location',
     'general',
+    'blog',
 ]
 
 MIDDLEWARE = [
