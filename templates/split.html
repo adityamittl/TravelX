@@ -268,6 +268,14 @@
             display: flex;
 
         }
+        .options{
+            cursor: pointer;
+            padding: 5px;
+            background-color: blue;
+            color: white;
+            border-radius: 5px;
+            width: 150px;
+        }
     </style>
     <div class="sidebar">
         <div class="logo-details">
@@ -324,9 +332,16 @@
             <div class="sectioncontainer">
 
                 <div class="section1">
-                    <form method = 'POST' class="form" enctype="multipart/form-data">  
+                    <form method = 'POST' class="form" enctype="multipart/form-data" id="splitform">  
                         {% csrf_token %}
-                        <input type = "file" name = 'myfile' id="myfile" required>
+                        <div class="options" onclick="imgsplit()">
+                            Split By Bill image
+                        </div>
+                        
+                        <br>
+                        <h3>Or</h3>
+                        <div class="options" onclick="ammsplit()">Split by ammount</div>
+                        <input type="text" style="display: none;" value="0" name="modeofsplit" id="mos">
                         <p><button class="submitb" type = "submit">Split</button></p>
                     </form>
         
@@ -351,7 +366,16 @@
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js"></script>
 
     <script>
+        function imgsplit(){
+            $("#splitform").append("<input type = 'file' name = 'myfile' id='myfile'>")
+            $("#mos").val('1');
+            $("#myfile").attr('value', '1')
 
+        }
+        function ammsplit(){
+            $("#splitform").append('<input type="text" placeholder="Ammount of bill" name="ammount">')
+            $("#mos").attr('value', '2');
+        }
         let sidebar = document.querySelector(".sidebar");
         let closeBtn = document.querySelector("#btn");
         let searchBtn = document.querySelector(".bx-search");

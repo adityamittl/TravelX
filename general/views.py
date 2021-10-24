@@ -86,7 +86,7 @@ def default(request):
         prof = profile.objects.get(user = usr)
         prof.name = request.POST.get('name')
         prof.email = request.POST.get('email')
-        prof.monile = request.POST.get('mobile')
+        prof.mobile = request.POST.get('mobile')
         prof.image = "/profile_pictures/"+filename
         prof.save()
         return redirect('/')
@@ -97,6 +97,7 @@ def default(request):
     context = {
         'data':profle
     }
+    print(profle.mobile)
     print(context)
     return render(request,'accounts.html',context=context)
 
@@ -123,37 +124,49 @@ def recieved_requests(request):
 @login_required
 def split(request):
     if request.method == 'POST':
-        if request.FILES['myfile']:
-            myfile = request.FILES['myfile']
-            fs = FileSystemStorage(location='media/bills/')
-            filename = fs.save(myfile.name, myfile)
-            #url = 'http://127.0.0.1:8000/media/bill/'+filename    #un comments these line after production to enable those features of AI
-            retrived_data = extract_bill(str(BASE_DIR/'media/bills/')+"/"+filename)
-            print(retrived_data)
-            request_user = request.user
-            total = retrived_data[0]['total']
-            friends = friend_list.objects.get(user = request_user)
-            number_of_friends = friends.friend_count
-            ammount_paid = total/(number_of_friends+1)
-            bill_data = bill()
-            bill_data.user = request.user 
-            bill_data.creator = request_user.username
+        b = 0
+        total = 0
+        a = request.POST.get('modeofsplit')
+        if(a==2 or a=='2'):
+            total = request.POST.get('ammount')
+            b=1
+        if a==1 or a=='1':
+            if request.FILES['myfile']:
+                myfile = request.FILES['myfile']
+                fs = FileSystemStorage(location='media/bills/')
+                filename = fs.save(myfile.name, myfile)
+                #url = 'http://127.0.0.1:8000/media/bill/'+filename    #un comments these line after production to enable those features of AI
+                retrived_data = extract_bill(str(BASE_DIR/'media/bills/')+"/"+filename)
+                print(retrived_data)
+                total = retrived_data[0]['total']
+        request_user = request.user
+        friends = friend_list.objects.get(user = request_user)
+        number_of_friends = friends.friend_count
+        ammount_paid = int(total)/(int(number_of_friends)+1)
+        bill_data = bill()
+        bill_data.user = request.user 
+        bill_data.creator = request_user.username
+        if(b==0):
             bill_data.bill_image = filename
-            bill_data.ammount = ammount_paid
-            bill_data.save()
-            for i in friends.friends.all():
-                new = bill()
-                new.user = i
-                new.creator = request_user.username
+        bill_data.ammount = ammount_paid
+        bill_data.save()
+        for i in friends.friends.all():
+            new = bill()
+            new.user = i
+            new.creator = request_user.username
+            if(b==0):
                 new.bill_image = filename
-                new.ammount = ammount_paid
-                new.save()
+            new.ammount = ammount_paid
+            new.save()
+        if(b==0):
             context = {
                 'name' : filename
             }
-            return redirect('pendingPayment')
         else:
-            pass
+            context = {
+                'name' : "filename"
+            }
+        return redirect('pendingPayment')
     try:
         ontrip = friend_list.objects.get(user = request.user)
         ontrip = ontrip.friends.all()

@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'location',
     'general',
     'blog',
+    'chat',
+    'chat2'
 ]
 
 MIDDLEWARE = [
@@ -132,3 +134,8 @@ MEDIA_ROOT = BASE_DIR/'media'
 
 LOGIN_REDIRECT_URL = '/login'
 LOGIN_URL = '/login/'
+
+TWILIO_ACCOUNT_SID = 'AC82a278d0019838fec847a68c5d0c0726'
+TWILIO_API_KEY = 'SKb1ef123dc72810def5be32dc47eb51f8'
+TWILIO_API_SECRET = 'e11c019c793c4068c2c401f94d52'
+TWILIO_CHAT_SERVICE_SID = 'IS59bf80081bc4466c8fec97ecbe35f4ea'

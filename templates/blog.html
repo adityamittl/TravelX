@@ -7,12 +7,19 @@
     <link rel="stylesheet" href="style.css">
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script
+    src="https://kit.fontawesome.com/c7cbb7fafb.js"
+    crossorigin="anonymous"
+  ></script>
     
 </head>
 
 <body>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+        .fas {
+        color: red;
+      }
 
         * {
             margin: 0;
@@ -366,6 +373,11 @@
                 min-height: auto;
                 margin-left: 0;
             }
+            .newblog{
+                height: 10px;
+                width: 150px;
+                background-color: yellowgreen;
+            }
         }
     </style>
     <div class="sidebar">
@@ -403,7 +415,7 @@
                 <span class="tooltip">Blog</span>
             </li>
             <li>
-                <a href="#">
+                <a href="/chat">
                     <i class='bx bxs-chat'></i>
                     <span class="links_name">Chatroom</span>
                 </a>
@@ -446,6 +458,7 @@
           margin-bottom: 50px;
         "
       >
+      <a href="/new-blog" style="background-color: yellowgreen; padding: 5px; text-decoration: none; margin-top: 5px; border-radius: 9px;">Write blog</a>
         {% if my %}
         <h1>My Blogs</h1>
         {% endif %} {% if usr %}
