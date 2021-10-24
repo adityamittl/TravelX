@@ -347,7 +347,7 @@
                         
                         <br>
                         <h3>Or</h3>
-                        <div class="options" onclick="ammsplit()">Split by ammount</div>
+                        <div class="options" onclick="ammsplit()">Split by Amount</div>
                         <input type="text" style="display: none;" value="0" name="modeofsplit" id="mos">
                         <p><button class="submitb" type = "submit">Split</button></p>
                         
@@ -381,7 +381,7 @@
 
         }
         function ammsplit(){
-            $("#splitform").append('<input type="text" placeholder="Ammount of bill" name="ammount">')
+            $("#splitform").append('<input type="text" placeholder="Amount of bill" name="ammount">')
             $("#mos").attr('value', '2');
         }
         let sidebar = document.querySelector(".sidebar");
