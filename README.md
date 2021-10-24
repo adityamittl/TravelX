@@ -1,4 +1,4 @@
-# TeavelX
+# TravelX
 
 ## 💡 Inspiration
 
@@ -13,6 +13,7 @@ TeavelX is a money-splitting web app where you can keep track of your budgets an
 - Forntend: HTML, CSS
 - Backend: Django
 - Database: CockroachDB
+- Bill Amount Extraction - Azure Form Recognizer
 
 ## Use of CockroachDB
 
@@ -36,7 +37,7 @@ TeavelX is a money-splitting web app where you can keep track of your budgets an
 
 ## 📖 What we learned
 
-## 🚀 What's next for TeavelX
+## 🚀 What's next for TravelX
 
 - Adding more languages
 - Information of nearby place(eg. hotel, restaurant)
