@@ -64,7 +64,7 @@
             {% for i in data %}
             <div class="fields">
                 <p>{{ i.from_user }}</p>
-                <button type="button" id="ipt{{ i.user.username }}" class="btn btn-outline-primary" onclick="sendrequest('{{ i.from_user }}')"> Confirm </button>
+                <button type="button" id="ipt{{ i.username }}" class="btn btn-outline-primary" onclick="sendrequest('{{ i.from_user }}')"> Confirm </button>
                 <p id="{{ i.user.username }}"></p> 
                 
             </div>

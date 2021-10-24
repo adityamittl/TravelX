@@ -13,6 +13,7 @@ from location.models import previous_locations
 @login_required
 def add_friend(request,slug):
     if request.method=='POST':
+        print("Hello")
         current_user = request.user
         target_user = User.objects.get(username = slug)
         temp = sent_request()
@@ -53,9 +54,9 @@ def accept_friend(request,slug):
         side2.friends.add(current_user)
         side2.friend_count+=1
         side2.save()
-        requests = recieve_request.objects.get(from_user = target_user)
+        requests = recieve_request.objects.filter(from_user = target_user)
         requests.delete()
-        instance = sent_request.objects.get(from_user = target_user)
+        instance = sent_request.objects.filter(from_user = target_user)
         instance.delete()
 
         return HttpResponse("Accepted:")
@@ -182,11 +183,15 @@ def findfriend(request):
         x = friend_list.objects.get(user = request.user)
         for i in x.friends.all():
             exclusion.append(i)
+    except:
+        exclusion=[]
+    try:
         sented = sent_request.objects.filter(from_user = request.user)
         already = []
         for i in sented:
             exclusion.append(i.to_user)
             already.append(profile.objects.get(user = i.to_user))
+        print()
     except:
         already = []
     try:
@@ -194,9 +199,11 @@ def findfriend(request):
         profs = profile.objects.all().exclude(user__in=exclusion)
     except:
         profs = []
+    print(already,exclusion)
     context = {
         'profiles': profs,
-        'sented':already
+        'sented':already,
+        'exclusion':exclusion
     }
     return render(request,'findfriends.html',context=context)
 
