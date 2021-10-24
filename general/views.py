@@ -31,7 +31,9 @@ def add_friend(request,slug):
 def accept_friend(request,slug):
     if request.method=='POST':
         current_user = request.user
-        target_user = User.objects.get(username = slug)
+        target_user = User.objects.get(username = str(slug))
+        print(slug)
+        print(target_user)
         try:
             side1 = friend_list.objects.get(user = current_user)
         except:
